@@ -14,10 +14,3 @@ Note:- Place cursor at proper place , where you want to insert icon.
 -> Initially only `60 icons` are displayed in list type `all-icons` in search bar to view all icons.
 
 
-# 📬 Features request / Bug report
-
-Create a issue in github repository [here]()
-
-# Github repo link
-
-[Click here to visit this plugin GitHub repo]()
