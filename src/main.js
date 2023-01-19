@@ -1,6 +1,7 @@
 import plugin from "../plugin.json";
 import icons from "./icon.js";
 
+
 const loader = acode.require("loader");
 
 class fonticons {
@@ -171,13 +172,28 @@ class fonticons {
     }
 
     getClass();
+    
+    // function to insert icon in editor
+    function insertToEditor() {
+      const iconCode = document.getElementsByTagName("code");
+      const iconCodeArr = Array.from(iconCode);
+      iconCodeArr.forEach((e) => {
+        const code = e.innerText;
+        e.addEventListener("click", () => {
+          editorManager.editor.insert(code);
+          page.hide();
+        });
+      });
+    }
+
+    insertToEditor();
 
     //insert cdn link
     const cdn = document.querySelector(".copyCdn");
-    cdn.addEventListener("click", () => {
-      editorManager.editor.insert(cdnUrl);
-     page.hide();
-    });
+    cdn.onclick = function(){
+      editorManager.editor.insert(cdnUrl)
+      page.hide()
+    };
 
     // search function
 
@@ -209,22 +225,10 @@ class fonticons {
           displayArea.innerHTML = "No icon found for your search!!";
         }
       }
+insertToEditor();
     });
     
-    // function to insert icon in editor
-    function insertToEditor() {
-      const iconCode = document.getElementsByTagName("code");
-      const iconCodeArr = Array.from(iconCode);
-      iconCodeArr.forEach((e) => {
-        const code = e.innerText;
-        e.addEventListener("click", () => {
-          editorManager.editor.insert(code);
-          page.hide();
-        });
-      });
-    }
 
-    insertToEditor();
 
     this.$page.onhide = () => {
       const displayArea = document.querySelector(".display");
