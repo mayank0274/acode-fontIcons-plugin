@@ -105,9 +105,19 @@ class fonticons {
     this.$copyCdn.style.border = "1px solid #ffffff"
     
   }
+  
+  clear_display() {
+  	// elegant way to clear element childs and event listener (easy on memory)
+  	const displayArea = document.querySelector(".display");
+
+		while (displayArea.firstChild) {
+			displayArea.removeChild(displayArea.lastChild);
+		}
+	}
 
   async run() {
     const page = this.$page;
+    var that = this;
     this.$page.show();
 
     // cdn link for icons
@@ -200,19 +210,24 @@ class fonticons {
     const searchBtn = document.querySelector(".searchBtn");
 
     searchBtn.addEventListener("click", () => {
-      var searchVal = document.querySelector(".search");
+      const searchEle = document.querySelector(".search");
+      const searchVal = searchEle.value.toLowerCase().trim()
+      // support lower case and ignore trailing whitespace
       const displayArea = document.querySelector(".display");
       let filterArr = icons.icons;
 
-      if (searchVal.value === "all-icons") {
-        displayArea.innerHTML = " ";
+			that.clear_display()
+      
+
+      if (searchVal === "all-icons") {
         for (let i = 0; i < filterArr.length; i++) {
           insert(filterArr[i]);
         }
-      } else {
+      } else if(searchVal) {
+      	// if search text not empty 
         const newArr = new Array();
         filterArr.forEach((e) => {
-          if (e.includes(searchVal.value)) {
+          if (e.includes(searchVal)) {
             newArr.push(e);
           }
         });
@@ -222,8 +237,11 @@ class fonticons {
             insert(newArr[i]);
           }
         } else {
-          displayArea.innerHTML = "No icon found for your search!!";
+        	displayArea.innerHTML = "No icon found for your search!!";
         }
+      } else {
+      	getClass();
+      	// on empty search will return the primary items
       }
 insertToEditor();
     });
@@ -234,7 +252,7 @@ insertToEditor();
       const displayArea = document.querySelector(".display");
 const searchVal = document.querySelector(".search");
 searchVal.value = ""
-      displayArea.innerHTML = " ";
+      that.clear_display();
       getClass();
     };
   }
